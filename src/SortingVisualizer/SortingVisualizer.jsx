@@ -1,69 +1,45 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './SortingVisualizer.css';
+import {mergeSort, quickSort, heapSort, bubbleSort} from './SortingAlgorithms.js';
 
-export class SortingVisualizer extends React.Component {
-    constructor(){
-        super();
-        this.state = {
-            array: [],
-        };
-    }
-
-    mergeSort(){
-
-    }
-
-    quickSort(){
-
-    }
-
-    heapSort(){
-
-    }
-
-    bubbleSort(){
-
-    }
-
-    componentDidMount(){
-        this.resetArray();
-    }
-
-    resetArray(){
-        const array = [];    
+const SortingVisualizer = () => {
+    const [array, setArray] = useState([]);
+    
+    useEffect(() => {
+        resetArray();
+    }, []);
+    
+    const resetArray = () => {
+        const newArray = [];    
         for(let i = 0; i < 80; i++){
-            array.push(randomIntFromInterval(5, 750));
+            newArray.push(randomIntFromInterval(5, 750));
         }
-        this.setState({array});
+        setArray(newArray);
     }
 
-    render(){
-        const {array} = this.state;
-
-        return (
-            <div>
-                <nav>
-                    <div className="new-array-button">
-                        <button onClick={() => this.resetArray()}>New Array</button>
-                    </div>
-                    <div className="sorting-buttons">
-                        <button onClick={() => this.mergeSort()}>Merge Sort</button>
-                        <button onClick={() => this.quickSort()}>Quick Sort</button>
-                        <button onClick={() => this.heapSort()}>Heap Sort</button>
-                        <button onClick={() => this.bubbleSort()}>Bubble Sort</button>
-                    </div>
-                </nav>
-                <div className='box'>
-                    <div className='container'>
-                        {array.map((value, key) => (
-                            <div className="bar" key={key} style={{height: `${value}px`}}></div>
-                        ))}
-                        
-                    </div>
+    return(
+        <div>
+            <nav>
+                <div className="new-array-button">
+                    <button onClick={() => resetArray()}>New Array</button>
+                </div>
+                <div className="sorting-buttons">
+                    <button onClick={() => mergeSort()}>Merge Sort</button>
+                    <button onClick={() => quickSort()}>Quick Sort</button>
+                    <button onClick={() => heapSort()}>Heap Sort</button>
+                    <button onClick={() => bubbleSort()}>Bubble Sort</button>
+                </div>
+            </nav>
+            <div className='box'>
+                <div className='container'>
+                    {array.map((value, key) => (
+                        <div className="bar" key={key} style={{height: `${value}px`}}></div>
+                    ))}
+                    
                 </div>
             </div>
-        );
-    }
+        </div>
+    )
 }
 
 function randomIntFromInterval(min, max){
