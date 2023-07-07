@@ -54,21 +54,8 @@ nav button:hover {
 .bar {
     width: 14px;
     margin: 0 2px;
-    background-color: #61ddffa4;
-    transition: height 0.2s;
-}
-  
-
-.bar.highlight {
-    background-color: #ff6b6b;
-}
-  
-.bar.swapping {
-    background-color: #ffd166;
-}
-  
-.bar.sorted {
-    background-color: #06d6a0;
+    background-color: #61ddffd8;
+    transition: height 0.1s;
 }
 
 @media screen and (max-width: 1600px) {
