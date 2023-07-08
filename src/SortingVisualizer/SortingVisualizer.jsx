@@ -42,7 +42,7 @@ const SortingVisualizer = () => {
                     <button onClick={() => resetArray()}>New Array</button>
                 </div>
                 <div className='speed-box'>
-                    <label>Animation Speed</label>
+                    <label>Animation ms</label>
                     <input className='speed-input' type="range" min="5" max="100" value={animationSpeed} onChange={(e) => setAnimationSpeed(e.target.value)}></input>
                 </div>
                 <div className="sorting-buttons">
