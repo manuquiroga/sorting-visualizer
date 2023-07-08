@@ -1,8 +1,5 @@
 import { playSound } from '../SortingVisualizer/playSound.js';
-
-const PRIMARY_COLOR = '#61ddffd8';
-
-const SECONDARY_COLOR = '#ff6b6b';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../SortingVisualizer/SortingVisualizer.jsx';
 
 export const visualizeMergeSort = (array, ANIMATION_SPEED_MS) => {
     const animations = mergeSort(array);
@@ -29,7 +26,7 @@ export const visualizeMergeSort = (array, ANIMATION_SPEED_MS) => {
         }, i * ANIMATION_SPEED_MS);
       }
     }
-  }
+}
 
 const mergeSort = (array) => {
     const animations = [];
