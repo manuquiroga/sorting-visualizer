@@ -28,28 +28,30 @@ const SortingVisualizer = () => {
     };
 
     const mergeSort = () => {
+        disableButtons();
         visualizeMergeSort(array, animationSpeed);
     };
 
     const bubbleSort = () => {
-        visualizeBubbleSort(array, animationSpeed);
+        disableButtons();
+        visualizeBubbleSort(array, animationSpeed);      
     };
 
     return(
         <div>
             <nav>
                 <div className="new-array-button">
-                    <button onClick={() => resetArray()}>New Array</button>
+                    <button className='enable' onClick={() => resetArray()} >New Array</button>
                 </div>
                 <div className='speed-box'>
                     <label>Animation ms</label>
-                    <input className='speed-input' type="range" min="5" max="100" value={animationSpeed} onChange={(e) => setAnimationSpeed(e.target.value)}></input>
+                    <input className='speed-input enable' type="range" min="5" max="100" value={animationSpeed} onChange={(e) => setAnimationSpeed(e.target.value)} ></input>
                 </div>
-                <div className="sorting-buttons">
-                    <button onClick={() => mergeSort()}>Merge Sort</button>
-                    <button onClick={() => bubbleSort()}>Bubble Sort</button>
-                    <button >todo: Quick Sort</button>
-                    <button >todo: Heap Sort</button>
+                <div className="sorting-buttons ">
+                    <button className='enable' onClick={() => mergeSort()} >Merge Sort</button>
+                    <button className='enable' onClick={() => bubbleSort()} >Bubble Sort</button>
+                    <button className='enable' >todo: Quick Sort</button>
+                    <button className='enable' >todo: Heap Sort</button>
                 </div>
             </nav>
             <div className='box'>
@@ -67,6 +69,20 @@ const SortingVisualizer = () => {
 const randomIntFromInterval = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
+
+export const disableButtons = () => {
+    const buttons = document.getElementsByClassName('enable');
+    for(let i = 0; i < buttons.length; i++){
+        buttons[i].disabled = true;
+    }
+};
+
+export const enableButtons = () => {
+    const buttons = document.getElementsByClassName('enable');
+    for(let i = 0; i < buttons.length; i++){
+        buttons[i].disabled = false;
+    }
+};
 
 export default SortingVisualizer;
 

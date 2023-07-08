@@ -1,79 +1,73 @@
 import { playSound } from '../SortingVisualizer/playSound.js';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../SortingVisualizer/SortingVisualizer.jsx';
+import { PRIMARY_COLOR, SECONDARY_COLOR, enableButtons } from '../SortingVisualizer/SortingVisualizer.jsx';
 
-export const visualizeMergeSort = (array, ANIMATION_SPEED_MS) => {
-    const animations = mergeSort(array);
-    for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName('bar');
+export const visualizeMergeSort = async (array, ANIMATION_SPEED_MS) => {
+  const arrayBars = document.getElementsByClassName('bar');
+  await mergeSort(array, 0, array.length - 1, arrayBars, ANIMATION_SPEED_MS);
+  enableButtons();
+};
 
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animations[i];
-        const barOneStyle = arrayBars[barOneIdx].style;
-        const barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
-      } else {
-        setTimeout(() => {
-          const [barOneIdx, newHeight] = animations[i];
-          const barOneStyle = arrayBars[barOneIdx].style;
-          barOneStyle.height = `${newHeight}px`;
+const mergeSort = async (array, start, end, arrayBars, ANIMATION_SPEED_MS) => {
+  if (start < end) {
+    const mid = Math.floor((start + end) / 2);
+    await mergeSort(array, start, mid, arrayBars, ANIMATION_SPEED_MS);
+    await mergeSort(array, mid + 1, end, arrayBars, ANIMATION_SPEED_MS);
+    await merge(array, start, mid, end, arrayBars, ANIMATION_SPEED_MS);
+  }
+};
 
-          playSound(newHeight + 100);
-        }, i * ANIMATION_SPEED_MS);
-      }
+const merge = async (array, start, mid, end, arrayBars, ANIMATION_SPEED_MS) => {
+  const tempArray = [];
+
+  let i = start;
+  let j = mid + 1;
+  let k = 0;
+
+  while (i <= mid && j <= end) {
+    // reset color
+    for (let p = start; p <= end; p++) {
+      arrayBars[p].style.backgroundColor = PRIMARY_COLOR;
     }
-}
 
-const mergeSort = (array) => {
-    const animations = [];
-    if (array.length <= 1) return array;
-    const auxiliaryArray = array.slice();
-    mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, animations);
-    return animations;
-}
-  
-const mergeSortHelper = (mainArray, startIdx, endIdx, auxiliaryArray, animations) => {
+    //compare bars color
+    arrayBars[i].style.backgroundColor = SECONDARY_COLOR;
+    arrayBars[j].style.backgroundColor = SECONDARY_COLOR;
+    await sleep(ANIMATION_SPEED_MS);
 
-    if (startIdx === endIdx) return;
-    const middleIdx = Math.floor((startIdx + endIdx) / 2);
-    mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
-    mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
-    merge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
-}
-
-const merge = (mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations) => {
-    let k = startIdx;
-    let i = startIdx;
-    let j = middleIdx + 1;
-    while (i <= middleIdx && j <= endIdx) {
-      animations.push([i, j]);
-      animations.push([i, j]);
-
-      if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-
-        animations.push([k, auxiliaryArray[i]]);
-        mainArray[k++] = auxiliaryArray[i++];
-      } else {
-        animations.push([k, auxiliaryArray[j]]);
-        mainArray[k++] = auxiliaryArray[j++];
-      }
+    if (array[i] <= array[j]) {
+      tempArray[k++] = array[i++];
+    } else {
+      tempArray[k++] = array[j++];
     }
-    while (i <= middleIdx) {
-      animations.push([i, i]);
-      animations.push([i, i]);
+  }
 
-      animations.push([k, auxiliaryArray[i]]);
-      mainArray[k++] = auxiliaryArray[i++];
-    }
-    while (j <= endIdx) {
-      animations.push([j, j]);
-      animations.push([j, j]);
+  while (i <= mid) {
+    tempArray[k++] = array[i++];
+  }
 
-      animations.push([k, auxiliaryArray[j]]);
-      mainArray[k++] = auxiliaryArray[j++];
-    }
-}
+  while (j <= end) {
+    tempArray[k++] = array[j++];
+  }
+
+  for (let p = 0; p < k; p++) {
+    array[start + p] = tempArray[p];
+
+    // updt height
+    arrayBars[start + p].style.height = `${array[start + p]}px`;
+    playSound(array[start + p] + 90);
+
+    arrayBars[start + p].style.backgroundColor = PRIMARY_COLOR;
+    await sleep(ANIMATION_SPEED_MS);
+  }
+};
+
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+
+
+
+
+
+

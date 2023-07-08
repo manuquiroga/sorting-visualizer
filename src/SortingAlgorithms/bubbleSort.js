@@ -1,4 +1,4 @@
-import { PRIMARY_COLOR, SECONDARY_COLOR } from "../SortingVisualizer/SortingVisualizer";
+import { PRIMARY_COLOR, SECONDARY_COLOR, enableButtons } from "../SortingVisualizer/SortingVisualizer";
 import { playSound } from "../SortingVisualizer/playSound.js";
 
 export const visualizeBubbleSort = async (array, ANIMATION_SPEED_MS) => {
@@ -21,7 +21,7 @@ export const visualizeBubbleSort = async (array, ANIMATION_SPEED_MS) => {
           arrayBars[j].style.height = `${array[j]}px`;
           arrayBars[j + 1].style.height = `${array[j + 1]}px`;
 
-          playSound(array[j] + 80);
+          playSound(array[j] + 90);
         }
 
         //reset color
@@ -30,11 +30,13 @@ export const visualizeBubbleSort = async (array, ANIMATION_SPEED_MS) => {
         
       }
     }
+
+    enableButtons();
   };
 
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
   
   
   
