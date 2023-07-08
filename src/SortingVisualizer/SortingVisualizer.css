@@ -58,6 +58,29 @@ nav button:hover {
     transition: height 0.1s;
 }
 
+.speed-box{
+    background-color: #555;
+    border-radius: 4px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav label{
+    color: #fff;
+    font-size: 16px;
+    margin-right: 10px;
+    margin-left: 20px;
+}
+
+/* speed input */
+.speed-input {
+    color: #fff;
+    border: 2px solid #61ddffd8;
+    border-radius: 4px;
+}
+
 @media screen and (max-width: 1600px) {
     .bar {
       width: 10px;
