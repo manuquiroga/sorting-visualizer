@@ -1,0 +1,72 @@
+import { playSound } from "../SortingVisualizer/playSound.js";
+import { PRIMARY_COLOR, SECONDARY_COLOR, enableButtons } from "../SortingVisualizer/SortingVisualizer.jsx";
+
+export const visualizeHeapSort = async (array, ANIMATION_SPEED_MS) => {
+  const arrayBars = document.getElementsByClassName("bar");
+  const n = array.length;
+
+  // Build max heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    await heapify(array, n, i, arrayBars, ANIMATION_SPEED_MS);
+  }
+
+  // Extract elements from the heap one by one
+  for (let i = n - 1; i > 0; i--) {
+    await swap(array, 0, i, arrayBars, ANIMATION_SPEED_MS);
+    arrayBars[i].style.backgroundColor = SECONDARY_COLOR;
+    await sleep(ANIMATION_SPEED_MS);
+
+    await heapify(array, i, 0, arrayBars, ANIMATION_SPEED_MS);
+
+    // Reset color
+    arrayBars[i].style.backgroundColor = PRIMARY_COLOR;
+  }
+
+  enableButtons();
+};
+
+const heapify = async (array, n, i, arrayBars, ANIMATION_SPEED_MS) => {
+  let largest = i;
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+
+  // Compare with left child
+  if (left < n && array[left] > array[largest]) {
+    largest = left;
+  }
+
+  // Compare with right child
+  if (right < n && array[right] > array[largest]) {
+    largest = right;
+  }
+
+
+  if (largest !== i) {
+    await swap(array, i, largest, arrayBars, ANIMATION_SPEED_MS);
+    arrayBars[largest].style.backgroundColor = SECONDARY_COLOR;
+    await sleep(ANIMATION_SPEED_MS);
+
+    await heapify(array, n, largest, arrayBars, ANIMATION_SPEED_MS);
+
+    // Reset color
+    arrayBars[largest].style.backgroundColor = PRIMARY_COLOR;
+  }
+};
+
+const swap = async (array, i, j, arrayBars, ANIMATION_SPEED_MS) => {
+  const temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+
+  // Update height
+  arrayBars[i].style.height = `${array[i]}px`;
+  arrayBars[j].style.height = `${array[j]}px`;
+
+  playSound(array[i] + 90);
+
+  await sleep(ANIMATION_SPEED_MS);
+};
+
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};

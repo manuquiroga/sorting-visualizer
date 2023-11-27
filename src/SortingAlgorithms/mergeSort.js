@@ -29,7 +29,7 @@ const merge = async (array, start, mid, end, arrayBars, ANIMATION_SPEED_MS) => {
       arrayBars[p].style.backgroundColor = PRIMARY_COLOR;
     }
 
-    //compare bars color
+    // red color
     arrayBars[i].style.backgroundColor = SECONDARY_COLOR;
     arrayBars[j].style.backgroundColor = SECONDARY_COLOR;
     await sleep(ANIMATION_SPEED_MS);
@@ -56,6 +56,7 @@ const merge = async (array, start, mid, end, arrayBars, ANIMATION_SPEED_MS) => {
     arrayBars[start + p].style.height = `${array[start + p]}px`;
     playSound(array[start + p] + 90);
 
+    // color
     arrayBars[start + p].style.backgroundColor = PRIMARY_COLOR;
     await sleep(ANIMATION_SPEED_MS);
   }
@@ -64,6 +65,7 @@ const merge = async (array, start, mid, end, arrayBars, ANIMATION_SPEED_MS) => {
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
+
 
 
 
